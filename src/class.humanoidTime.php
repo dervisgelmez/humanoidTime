@@ -53,8 +53,8 @@ class humanoidTime{
             $this->timeToString($this->timeDiff);
         }
         else{
-                // Coming soon :d
-            echo 'Future time';
+            // Future Time
+            $this->timeToString($this->timeDiff);
         }
     }
 
@@ -90,6 +90,23 @@ class humanoidTime{
     private function timeToString($value)
     {
         // Convert time language to string
+
+        $timeStatus = [];
+
+        if ($value >= 0)
+        {
+            $timeStatus[0] = " ago";
+            $timeStatus[1] = "Last ";
+            $timeStatus[2] = "Yesterday";
+        }
+        else
+        {
+            $value = abs($value);
+            $timeStatus[0] = " later";
+            $timeStatus[1] = "Next ";
+            $timeStatus[2] = "Tomorrow";
+        }
+
         if ($value <= 300) 
         {
             if ($value <= 180) 
@@ -98,14 +115,14 @@ class humanoidTime{
             }
             else
             {
-                echo 'A few minutes ago';
+                echo 'A few minutes'.$timeStatus[0];
             }
         }
         else if ($value < 3600)
         {
             if ($this->timeConvert($value,5) > 29 && $this->timeConvert($value,5) < 31) 
             {
-                echo 'Half an hour ago';
+                echo 'Half an hour'.$timeStatus[0];
             }
             else
             {   
@@ -116,28 +133,28 @@ class humanoidTime{
         {
             if ($value > 4300 && $value<7920) 
             {
-                echo 'A few hours ago';
+                echo 'A few hours'.$timeStatus[0];
             }
             else
             {
-                echo round($this->timeConvert($value,4)).' hours ago';
+                echo round($this->timeConvert($value,4)).' hours'.$timeStatus[0];
             } 
         }
         else if($value < 2629743.83)
         {
             if ($value >= 86400 && $value < 172800) 
             {
-                echo 'Yesterday';    
+                echo $timeStatus[2];    
             }
             else
             {
                 if ((round($this->timeConvert($value,3))%7) == 0) 
                 {
-                    echo (round($this->timeConvert($value,3))/7).' weeks ago';    
+                    echo (round($this->timeConvert($value,3))/7).' weeks'.$timeStatus[0];    
                 }
                 else
                 {
-                    echo round($this->timeConvert($value,3)).' days ago';
+                    echo round($this->timeConvert($value,3)).' days'.$timeStatus[0];
                 }
             }
         }
@@ -145,26 +162,26 @@ class humanoidTime{
         {
             if (floor($this->timeConvert($value,1)) == 1) 
             {
-                echo 'Last month';
+                echo $timeStatus[1].'Month';
             }
             else if (floor($this->timeConvert($value,1)) > 1 && floor($this->timeConvert($value,1)) <= 3) 
             {
-                echo 'A few months ago';   
+                echo 'A few months'.$timeStatus[0];   
             }
             else
             {
-                echo floor($this->timeConvert($value,1)).' months ago';
+                echo floor($this->timeConvert($value,1)).' months'.$timeStatus[0];
             }
         }
         else if($value >= 31536014)
         {
             if (round($this->timeConvert($value,0)) == 1) 
             {
-                echo 'Last Year';
+                echo $timeStatus[1].'Year';
             }
             else
             {
-                echo round($this->timeConvert($value,0)).' years ago';
+                echo round($this->timeConvert($value,0)).' years'.$timeStatus[0];
             }
         }
     }
